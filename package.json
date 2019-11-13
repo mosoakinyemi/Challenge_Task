@@ -9,6 +9,11 @@
     "test": "jest",
     "lint": "eslint ."
   },
+  "rnpm": {
+    "assets": [
+      "./src/assets/fonts/icomoon.ttf"
+    ]
+  },
   "dependencies": {
     "react": "16.9.0",
     "react-native": "0.61.4",
