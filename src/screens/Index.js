@@ -20,19 +20,13 @@ const Dashboard = createBottomTabNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state
-        return (
-          <TabIcon
-            focused={focused}
-            tintColor={tintColor}
-            routeName={routeName}
-          />
-        )
+        return <TabIcon focused={focused} tintColor={tintColor} routeName={routeName} />
       }
     }),
     tabBarOptions: {
       showLabel: false,
-      activeTintColor: '#000',
-      inactiveTintColor: '#ddd',
+      activeTintColor: '#030404',
+      inactiveTintColor: '#8c9fb5',
       style: {
         height: 90,
         alignContent: 'flex-end'
@@ -44,7 +38,7 @@ const Dashboard = createBottomTabNavigator(
 
 const AppRootNavigation = createStackNavigator({
   AddCard: { screen: AddCard },
-  Dashboard: Dashboard
+  Dashboard: { screen: Dashboard, navigationOptions: { header: null } }
 })
 
 export const Index = createAppContainer(AppRootNavigation)
@@ -77,14 +71,8 @@ const TabIcon = props => {
   } else {
     return (
       <View style={styles.iconContainer}>
-        <Icon
-          name={iconName}
-          size={EStyleSheet.value('30rem')}
-          color={tintColor}
-        />
-        <Text style={[styles.label, { color: focused ? '#000' : '#ddd' }]}>
-          {pageName}
-        </Text>
+        <Icon name={iconName} size={EStyleSheet.value('30rem')} color={tintColor} />
+        <Text style={[styles.label, { color: focused ? '#000' : '#ddd' }]}>{pageName}</Text>
       </View>
     )
   }
@@ -94,10 +82,11 @@ const styles = EStyleSheet.create({
   addIconContainer: {
     height: '30rem',
     width: '30rem',
-    borderRadius: '7rem',
-    backgroundColor: '$green',
+    borderRadius: '10rem',
+    backgroundColor: '#00af42',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: '30rem'
   },
   label: {
     fontSize: '12rem',
