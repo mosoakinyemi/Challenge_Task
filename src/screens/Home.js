@@ -3,8 +3,9 @@ import { Text, View, FlatList } from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet'
 import { LineChart } from 'react-native-chart-kit'
 import Svg, { Circle } from 'react-native-svg'
-import HistoryCard from '../components/HistoryCard'
+import HistoryCard, { green } from '../components/HistoryCard'
 import DummyData from '../components/data.js'
+// import Icon from '../components/Icon'
 
 export default class Home extends React.Component {
   render () {
@@ -13,6 +14,20 @@ export default class Home extends React.Component {
         <View style={styles.topHalf}>
           <View style={styles.textBlocks}>
             <Text style={styles.availableText}>AVAILABLE BALANCE</Text>
+
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={styles.nairaContainer}>
+                <Text style={styles.nairaSign}>{'\u20a6'}</Text>
+              </View>
+
+              <View style={styles.balanceTextContainer}>
+                <Text style={styles.balanceText}>547,916</Text>
+                <Text style={styles.balanceSubText}>.15</Text>
+              </View>
+            </View>
+
+            <Text style={styles.totalBalanceText}>My Total Balance: NGN 10,610,918.25</Text>
+
             <View />
           </View>
           <Svg>
@@ -37,8 +52,6 @@ export default class Home extends React.Component {
                 backgroundGradientTo: '#eaf5f6',
                 fillShadowGradient: '#2c5Ef0',
                 fillShadowGradientOpacity: 1,
-
-                decimalPlaces: 2, // optional, defaults to 2dp
                 color: (opacity = 1) => '#2c5Ef0',
                 style: {
                   borderRadius: 16
@@ -64,12 +77,14 @@ export default class Home extends React.Component {
             /> */}
           </Svg>
         </View>
+
         <View style={styles.recentTransactionContainer}>
           <Text style={styles.recentTransactionText}>RECENT TRANSACTIONS</Text>
         </View>
 
         {/* History Cards Container */}
         <FlatList
+          showsVerticalScrollIndicator={false}
           style={styles.historyCardsContainer}
           data={DummyData}
           keyExtractor={this._keyExtractor}
@@ -91,12 +106,55 @@ export default class Home extends React.Component {
 }
 
 const styles = EStyleSheet.create({
+  nairaSign: {
+    color: '#1f3f66',
+    fontSize: '18rem',
+    fontWeight: 'bold'
+  },
+  balanceTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginLeft: '10rem'
+  },
+  balanceSubText: {
+    color: '#1f3f66',
+    fontSize: '27rem',
+    fontWeight: 'bold'
+  },
+  totalBalanceText: {
+    color: '#61c979',
+    marginTop: '10rem'
+  },
+  balanceText: {
+    color: '#1f3f66',
+    fontSize: '30rem',
+    fontWeight: 'bold'
+  },
+  availableText: {
+    color: '#8b8c99',
+    fontWeight: 'bold',
+    fontSize: '12rem',
+    marginTop: '12rem'
+  },
+  textBlocks: {
+    marginBottom: '40rem',
+    width: '100%',
+    alignItems: 'center'
+  },
+  nairaContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '30rem',
+    width: '30rem',
+    borderRadius: '25rem',
+    backgroundColor: '#d3e2e7'
+  },
   historyCardsContainer: {
     flex: 1,
     margin: '10rem'
   },
   recentTransactionText: {
-    fontSize: '14rem',
+    fontSize: '13rem',
     fontWeight: 'bold'
   },
   recentTransactionContainer: {
@@ -104,7 +162,7 @@ const styles = EStyleSheet.create({
     paddingVertical: '15rem',
     backgroundColor: 'white',
     borderBottomWidth: '1rem',
-    borderBottomColor: '#909090',
+    borderBottomColor: '#c4c4c4',
     justifyContent: 'center',
     alignItems: 'center'
   },

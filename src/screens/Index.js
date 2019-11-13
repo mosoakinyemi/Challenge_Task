@@ -28,7 +28,7 @@ const Dashboard = createBottomTabNavigator(
       activeTintColor: '#030404',
       inactiveTintColor: '#8c9fb5',
       style: {
-        height: 90,
+        height: 70,
         alignContent: 'flex-end'
         // paddingBottom: 20
       }
@@ -65,13 +65,13 @@ const TabIcon = props => {
   if (routeName === 'Add') {
     return (
       <View style={styles.addIconContainer}>
-        <Icon name={iconName} size={EStyleSheet.value('12rem')} color='white' />
+        <Icon name={iconName} size={EStyleSheet.value('11rem')} color='white' />
       </View>
     )
   } else {
     return (
       <View style={styles.iconContainer}>
-        <Icon name={iconName} size={EStyleSheet.value('30rem')} color={tintColor} />
+        <Icon name={iconName} size={EStyleSheet.value('25rem')} color={tintColor} />
         <Text style={[styles.label, { color: focused ? '#000' : '#ddd' }]}>{pageName}</Text>
       </View>
     )

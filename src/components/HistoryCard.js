@@ -3,9 +3,9 @@ import { Text, View } from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet'
 import Icon from './Icon'
 
-const darkText = '#212337'
+export const darkText = '#212337'
 const feintGreen = '#d3f0e8'
-const green = '#31be57'
+export const green = '#31be57'
 const feintOrange = '#f7e7e3'
 const orange = '#ed7136'
 const feintPurple = '#e6e5f3'
@@ -38,47 +38,54 @@ const HistoryCard = props => {
 
         <View style={styles.row}>
           <Text style={styles.date}>{date}</Text>
-            <View style={[styles.typeContainer,{backgroundColor:getBackground(props.index)}]}>
-                <Text style={styles.type}>{type.toUpperCase()}</Text>
-            </View>
+          <View
+            style={[styles.typeContainer, { backgroundColor: getBackground(props.index) }]}
+          >
+            <Text style={[styles.type, { color: getColor(props.index) }]}>
+              {type.toUpperCase()}
+            </Text>
+          </View>
         </View>
       </View>
     </View>
   )
 }
 const getBackground = index => {
-    switch (index) {
-      case 0:
-        return feintGreen
-      case 1:
-        return feintOrange
-      case 2:
-        return feintPurple
-      default:
-        return feintGreen
-    }
+  switch (index) {
+    case 0:
+      return feintGreen
+    case 1:
+      return feintOrange
+    case 2:
+      return feintPurple
+    default:
+      return feintGreen
   }
+}
 export default HistoryCard
 
 const styles = EStyleSheet.create({
-
-    date:{
-        fontWeight:'bold',
-        color:darkText
-    },
-    title:{
-        fontWeight:'bold',
-        color:'#8b8c99'
-    },   
-    price:{
-        fontWeight:'bold',
-        color:darkText
-    },
-    typeContainer:{
-        height:'30rem',
-        width:'50rem',
-        borderRadius:'5rem'
-    },
+  type: {
+    fontSize: '11rem',
+    fontWeight: 'bold'
+  },
+  date: {
+    fontWeight: 'bold',
+    color: '#8b8c99'
+  },
+  title: {
+    fontWeight: 'bold',
+    color: darkText
+  },
+  price: {
+    fontWeight: 'bold',
+    color: darkText
+  },
+  typeContainer: {
+    paddingVertical: '5rem',
+    paddingHorizontal: '8rem',
+    borderRadius: '5rem'
+  },
   row: {
     flexDirection: 'row',
     width: '100%',
