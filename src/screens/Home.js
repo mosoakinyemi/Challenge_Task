@@ -1,15 +1,20 @@
 import React from 'react'
-import { Text, View, Image } from 'react-native'
+import { Text, View, FlatList } from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet'
 import { LineChart } from 'react-native-chart-kit'
 import Svg, { Circle } from 'react-native-svg'
 import HistoryCard from '../components/HistoryCard'
+import DummyData from '../components/data.js'
 
 export default class Home extends React.Component {
   render () {
     return (
       <View style={styles.container}>
         <View style={styles.topHalf}>
+          <View style={styles.textBlocks}>
+            <Text style={styles.availableText}>AVAILABLE BALANCE</Text>
+            <View />
+          </View>
           <Svg>
             <LineChart
               data={{
@@ -66,14 +71,23 @@ export default class Home extends React.Component {
         {/* History Cards Container */}
         <FlatList
           style={styles.historyCardsContainer}
-          data={Days}
-          extraData={this.state}
+          data={DummyData}
           keyExtractor={this._keyExtractor}
-          renderItem={this._renderItem2}
+          renderItem={this._renderItem}
         />
       </View>
     )
   }
+  _renderItem = ({ item, index }) => (
+    <HistoryCard
+      key={index}
+      historyData={item}
+      index={index}
+      onPressItem={this._onPressItem}
+    />
+  )
+
+  _keyExtractor = (item, index) => index
 }
 
 const styles = EStyleSheet.create({
