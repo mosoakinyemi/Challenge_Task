@@ -37,8 +37,8 @@ const Dashboard = createBottomTabNavigator(
 )
 
 const AppRootNavigation = createStackNavigator({
-  AddCard: { screen: AddCard },
-  Dashboard: { screen: Dashboard, navigationOptions: { header: null } }
+  Dashboard: { screen: Dashboard, navigationOptions: { header: null } },
+  AddCard: { screen: AddCard }
 })
 
 export const Index = createAppContainer(AppRootNavigation)
