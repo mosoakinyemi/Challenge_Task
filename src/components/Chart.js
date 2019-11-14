@@ -6,15 +6,7 @@ import Svg, { Line, Circle, Path, G, Rect } from 'react-native-svg'
 
 const deviceHeight = Dimensions.get('window').height
 const deviceWidth = Dimensions.get('window').width
-const data = [
-  { label: 'Jan', value: 500 },
-  { label: 'Feb', value: 312 },
-  { label: 'Mar', value: 424 },
-  { label: 'Apr', value: 745 },
-  { label: 'May', value: 300 },
-  { label: 'Jun', value: 434 },
-  { label: 'Jul', value: 650 }
-]
+
 const GRAPH_MARGIN = 20
 const SVGHeight = 120
 const SVGWidth = deviceWidth
@@ -48,19 +40,16 @@ var area = d3
   })
   .curve(d3.curveMonotoneX)
 
-export default class OtherScreen extends React.Component {
-  render () {
+const Chart =(props)=>{
     return (
-      <View style={styles.container}>
-        <Text>Other Screen</Text>
         <Svg width={deviceWidth} height={EStyleSheet.value('150')}>
           <Path d={area(data)} stroke='#2857ed' fill='#2857ed' strokeWidth={1} />
-          {this.renderDots()}
+          {renderDots(props.data)}
         </Svg>
-      </View>
     )
   }
-  renderDots () {
+
+ const renderDots = (data)=>{
     return (
       <G>
         {data.map((item, index) => {
@@ -88,7 +77,8 @@ export default class OtherScreen extends React.Component {
       </G>
     )
   }
-}
+
+export default Chart;
 
 const styles = EStyleSheet.create({
   container: {

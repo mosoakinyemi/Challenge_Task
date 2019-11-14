@@ -5,8 +5,17 @@ import { LineChart } from 'react-native-chart-kit'
 import Svg, { Circle } from 'react-native-svg'
 import HistoryCard, { green } from '../components/HistoryCard'
 import DummyData from '../components/data.js'
-// import Icon from '../components/Icon'
+import Chart from '../components/Chart'
 
+const data = [
+  { label: 'Jan', value: 500 },
+  { label: 'Feb', value: 312 },
+  { label: 'Mar', value: 424 },
+  { label: 'Apr', value: 745 },
+  { label: 'May', value: 300 },
+  { label: 'Jun', value: 434 },
+  { label: 'Jul', value: 650 }
+]
 export default class Home extends React.Component {
   render () {
     return (
@@ -30,52 +39,7 @@ export default class Home extends React.Component {
 
             <View />
           </View>
-          <Svg>
-            <LineChart
-              data={{
-                datasets: [
-                  {
-                    data: [19, 15, 14, 10, 19, 14, 17, 19]
-                  }
-                ]
-              }}
-              fromZero
-              width={480} // from react-native
-              height={100}
-              withVerticalLabels={false}
-              withHorizontalLabels={false}
-              withInnerLines={false}
-              withOuterLines={false}
-              chartConfig={{
-                backgroundColor: '#eaf5f6',
-                backgroundGradientFrom: '#eaf5f6',
-                backgroundGradientTo: '#eaf5f6',
-                fillShadowGradient: '#2c5Ef0',
-                fillShadowGradientOpacity: 1,
-                color: (opacity = 1) => '#2c5Ef0',
-                style: {
-                  borderRadius: 16
-                },
-                propsForDots: {
-                  r: '4',
-                  strokeWidth: '2.5',
-                  stroke: '#fff'
-                }
-              }}
-              bezier
-              style={{
-                borderRadius: 16
-              }}
-            />
-            {/* <Circle
-              cx={200}
-              cy={`-${800 - 50 + 2}`}
-              r='800'
-              fill='green'
-              stroke='#C5CACD'
-              strokeWidth='2'
-            /> */}
-          </Svg>
+        <Chart data={data}/>
         </View>
 
         <View style={styles.recentTransactionContainer}>
