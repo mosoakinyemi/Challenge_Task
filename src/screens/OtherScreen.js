@@ -8,24 +8,64 @@ import Svg, { Line, Circle, Path, G, Rect } from 'react-native-svg'
 const deviceHeight = Dimensions.get('window').height
 const deviceWidth = Dimensions.get('window').width
 // -----------Old Settings----
- var data = d3.range(11).map(function(i){
-  return {x: i, y: Math.sin(i)*3 + 5};
-});
-var width = 360,
-  height = 200,
-  margin = 30,
-x = d3.scaleLinear()
-.domain([0, 10])
-.range([margin, width - margin]),
-y = d3.scaleLinear()
-.domain([0, 10])
-.range([height - margin, margin]);
+//  var data = d3.range(11).map(function(i){
+//   return {x: i, y: Math.sin(i)*3 + 5};
+// });
 
-var area = d3.area()
-    .x(function(d) { return x(d.x); })
-    .y0(y(0))
-    .y1(function(d) { return y(d.y); })
-    .curve(d3.curveMonotoneX);
+const data = [
+  { label: 'Jan', value: 500 },
+  { label: 'Feb', value: 312 },
+  { label: 'Mar', value: 424 },
+  { label: 'Apr', value: 745 },
+  { label: 'May', value: 300 },
+  { label: 'Jun', value: 434 },
+  { label: 'Jul', value: 650 }
+]
+// var width = 360,
+//   height = 200,
+//   margin = 30;
+// x = d3.scaleLinear()
+// .domain([0, 10])
+// .range([margin, width - margin])
+const GRAPH_MARGIN = 20
+const GRAPH_BAR_WIDTH = 5
+const SVGHeight = 120
+const SVGWidth = deviceWidth
+const graphHeight = SVGHeight - 2 * GRAPH_MARGIN
+const graphWidth = SVGWidth - 2 * GRAPH_MARGIN
+// X scale point
+const xDomain = data.map(item => item.label)
+const xRange = [0, graphWidth]
+const x = d3
+  .scalePoint()
+  .domain(xDomain)
+  .range(xRange)
+  .padding(1)
+
+// Y scale linear
+const yDomain = [0, d3.max(data, d => d.value)]
+const yRange = [graphHeight, 0]
+const y = d3
+  .scaleLinear()
+  .domain(yDomain)
+  .range(yRange)
+
+var area = d3
+  .area()
+  .x(function (d) {
+    return x(d.label)
+  })
+  .y0(y(0))
+  .y1(function (d) {
+    return y(d.value)
+  })
+  .curve(d3.curveMonotoneX)
+
+// var area = d3.area()
+//     .x(function(d) { return x(d.label); })
+//     .y0(y(0))
+//     .y1(function(d) { return y(d.value); })
+//     .curve(d3.curveMonotoneX);
 
 // ------New Settings----------
 
@@ -79,9 +119,11 @@ var area = d3.area()
 //   })
 //   .curve(d3.curveMonotoneX)
 
-
 export default class OtherScreen extends React.Component {
   render () {
+    console.log('====================================')
+    console.log(area(data))
+    console.log('====================================')
     return (
       <View style={styles.container}>
         <Text>Other Screen</Text>
@@ -105,7 +147,7 @@ export default class OtherScreen extends React.Component {
         {data.map((item, index) => {
           return (
             <G>
-              <Circle
+              {/* <Circle
                 cx={x(item.x)}
                 cy={y(item.y)}
                 r={4.5}
@@ -120,6 +162,22 @@ export default class OtherScreen extends React.Component {
                 y1={200}
                 x2={x(item.x)}
                 y2={y(item.y) + 3}
+              /> */}
+              <Circle
+                cx={x(item.label)}
+                cy={y(item.value)}
+                r={4.5}
+                stroke='white'
+                fill='#1536dc'
+                strokeWidth={2}
+              />
+              <Line
+                stroke='rgba(255,255,255,0.4)'
+                strokeWidth={4}
+                x1={x(item.label)}
+                y1={200}
+                x2={x(item.label)}
+                y2={y(item.value) + 3}
               />
             </G>
           )
@@ -141,8 +199,6 @@ const styles = EStyleSheet.create({
     justifyContent: 'center'
   }
 })
-
-
 
 const colors = {
   axis: '#E4E4E4',
