@@ -7,13 +7,13 @@ import DummyData from '../components/data.js'
 import Chart from '../components/Chart'
 
 const data = [
-  { label: 'Jan', value: 500 },
-  { label: 'Feb', value: 312 },
-  { label: 'Mar', value: 424 },
-  { label: 'Apr', value: 745 },
-  { label: 'May', value: 300 },
-  { label: 'Jun', value: 434 },
-  { label: 'Jul', value: 650 }
+  { label: 'Jan', value: 480 },
+  { label: 'Feb', value: 400 },
+  { label: 'Mar', value: 470 },
+  { label: 'Apr', value: 310 },
+  { label: 'May', value: 500 },
+  { label: 'Jun', value: 350 },
+  { label: 'Jul', value: 490 }
 ]
 export default class Home extends React.Component {
   render () {

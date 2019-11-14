@@ -2,13 +2,15 @@ import React from 'react'
 import { Text, View, Dimensions } from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet'
 import * as d3 from 'd3'
-import Svg, { Line, Circle, Path, G, Rect } from 'react-native-svg'
+import Svg, { Line, Circle, Path, G, Defs, LinearGradient, Stop } from 'react-native-svg'
 
 const deviceHeight = Dimensions.get('window').height
 const deviceWidth = Dimensions.get('window').width
 
 const SVGWidth = deviceWidth
-const graphHeight = EStyleSheet.value('100rem')
+// const graphHeight = deviceWidth * 0.28
+const graphHeight = deviceWidth * 0.22
+
 const graphWidth = SVGWidth
 
 const Chart = props => {
@@ -24,7 +26,7 @@ const Chart = props => {
   // .padding(1)
 
   // Y scale linear
-  const yDomain = [0, d3.max(data, d => d.value)]
+  const yDomain = [100, d3.max(data, d => d.value)]
   const yRange = [graphHeight, 0]
   const y = d3
     .scaleLinear()
@@ -48,7 +50,7 @@ const Chart = props => {
       <G>
         {data.map((item, index) => {
           return (
-            <G>
+            <G key={item.value}>
               <Circle
                 cx={x(item.label)}
                 cy={y(item.value)}
@@ -75,7 +77,13 @@ const Chart = props => {
   return (
     <View style={props.style}>
       <Svg width={deviceWidth} height={graphHeight}>
-        <Path d={area(data)} stroke='#2857ed' fill='#2857ed' strokeWidth={1} />
+        <Defs>
+          <LinearGradient id='gradient' x1='0%' y1='0%' x2='0%' y2='100%'>
+            <Stop offset='0%' stopColor='#2958ee' stopOpacity='1' />
+            <Stop offset='100%' stopColor='#1941e1' stopOpacity='1' />
+          </LinearGradient>
+        </Defs>
+        <Path d={area(data)} fill='url(#gradient)' stroke='none' />
         {renderDots(props.data)}
       </Svg>
     </View>
