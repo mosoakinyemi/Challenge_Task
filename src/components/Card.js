@@ -13,7 +13,7 @@ export default class Card extends React.PureComponent {
       >
         <View style={styles.chipAndLogo}>
           <Icon name='chip' color='#ecd4be' size={EStyleSheet.value('30rem')} />
-          <Icon name='mastero' color='#f4f4f4' size={EStyleSheet.value('20rem')} />
+          <Icon name='mastero' color='#f4f4f4' size={EStyleSheet.value('30rem')} />
         </View>
         <Text style={styles.cardNumberTitle}>CARD NUMBER</Text>
         <Text style={styles.cardNumberText}>
@@ -29,7 +29,7 @@ export default class Card extends React.PureComponent {
 const styles = EStyleSheet.create({
   cardNumberText: {
     color: 'rgba(255,255,255,0.85)',
-    fontSize: '11rem'
+    fontSize: '12rem'
   },
   chipAndLogo: {
     width: '100%',
@@ -46,7 +46,7 @@ const styles = EStyleSheet.create({
   },
   cardNumberTitle: {
     color: 'rgba(255,255,255,0.8)',
-    fontSize: '11rem',
+    fontSize: '12rem',
     marginBottom: '15rem',
     marginTop: '12rem'
   }

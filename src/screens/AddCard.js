@@ -12,6 +12,28 @@ import EStyleSheet from 'react-native-extended-stylesheet'
 import Icon from '../components/Icon'
 import Card from '../components/Card'
 
+const ExpiryMask = string => {
+  return string.replace(/\B(?=(\d{2})+(?!\d))/g, '/')
+}
+
+const CardNumberMask = string => {
+  var v = string.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
+  var matches = v.match(/\d{4,16}/g);
+  var match = matches && matches[0] || ''
+  var parts = [],
+      i=0,len,value;
+
+  for (i=0, len=match.length; i<len; i+=4) {
+      parts.push(match.substring(i, i+4))
+  }
+
+  if (parts.length) {
+      return parts.join(' ')
+  } else {
+      return value
+  }
+}
+
 const PageTitle = () => {
   return (
     <View style={styles.pageTitleContainer}>
@@ -67,9 +89,13 @@ export default class AddCard extends React.Component {
     }
   }
 
-  getAddButtonColor(){
-    if(this.state.cardNumber !== '' && this.state.cvv !== '' && this.state.cardExpiry !== '' ){
-      return{backgroundColor:'limegreen'}
+  getAddButtonColor () {
+    if (
+      this.state.cardNumber !== '' &&
+      this.state.cvv !== '' &&
+      this.state.cardExpiry !== ''
+    ) {
+      return { backgroundColor: 'limegreen' }
     }
   }
 
@@ -83,8 +109,8 @@ export default class AddCard extends React.Component {
         <KeyboardAvoidingView enabled behavior='padding' style={styles.body}>
           <Card
             style={styles.cardStyle}
-            cardNumber={this.state.cardNumber}
-            cardExpiry={this.state.cardExpiry}
+            cardNumber={CardNumberMask(this.state.cardNumber)}
+            cardExpiry={ExpiryMask(this.state.cardExpiry)}
           />
 
           <View style={styles.cardNumberInputContainer}>
@@ -120,7 +146,7 @@ export default class AddCard extends React.Component {
                 onFocus={() => this.setState({ currentInput: 'expiry' })}
                 returnKeyType='next'
                 keyboardType='numeric'
-                onChangeText={text => this.setState({ cardExpiry: text })}
+                onChangeText={text => this.state.cardExpiry.length<4 && this.setState({ cardExpiry: text })}
                 blurOnSubmit={false}
                 onSubmitEditing={() => this.cvvInputRef.focus()}
                 ref={ref => (this.expiryInputRef = ref)}
@@ -147,7 +173,7 @@ export default class AddCard extends React.Component {
           <TouchableOpacity
             onPress={() => this.addCard()}
             activeOpacity={0.8}
-            style={[styles.addCardButton,this.getAddButtonColor()]}
+            style={[styles.addCardButton, this.getAddButtonColor()]}
           >
             <Text style={styles.addCardText}>ADD CARD</Text>
             {this.state.isLoading && <ActivityIndicator color='white' />}
