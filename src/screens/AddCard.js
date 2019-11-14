@@ -25,7 +25,7 @@ export default class AddCard extends React.Component {
     return {
       headerTitle: () => <PageTitle />,
       headerLeft: () => (
-        <Icon name='plus' color='#606060' size={17} style={styles.bacButton} />
+        <Icon name='left' color='#606060' size={17} style={styles.bacButton} />
       )
     }
   }
