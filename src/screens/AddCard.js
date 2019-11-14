@@ -67,6 +67,12 @@ export default class AddCard extends React.Component {
     }
   }
 
+  getAddButtonColor(){
+    if(this.state.cardNumber !== '' && this.state.cvv !== '' && this.state.cardExpiry !== '' ){
+      return{backgroundColor:'limegreen'}
+    }
+  }
+
   render () {
     return (
       <ScrollView
@@ -141,7 +147,7 @@ export default class AddCard extends React.Component {
           <TouchableOpacity
             onPress={() => this.addCard()}
             activeOpacity={0.8}
-            style={styles.addCardButton}
+            style={[styles.addCardButton,this.getAddButtonColor()]}
           >
             <Text style={styles.addCardText}>ADD CARD</Text>
             {this.state.isLoading && <ActivityIndicator color='white' />}
