@@ -1,8 +1,7 @@
 import React from 'react'
 import { Text, View, FlatList } from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet'
-import { LineChart } from 'react-native-chart-kit'
-import Svg, { Circle } from 'react-native-svg'
+
 import HistoryCard, { green } from '../components/HistoryCard'
 import DummyData from '../components/data.js'
 import Chart from '../components/Chart'
@@ -39,7 +38,7 @@ export default class Home extends React.Component {
 
             <View />
           </View>
-        <Chart data={data}/>
+          <Chart data={data} style={styles.chart} />
         </View>
 
         <View style={styles.recentTransactionContainer}>
@@ -70,6 +69,9 @@ export default class Home extends React.Component {
 }
 
 const styles = EStyleSheet.create({
+  // chart: {
+  //   marginTop: '20rem'
+  // },
   nairaSign: {
     color: '#1f3f66',
     fontSize: '18rem',
@@ -101,7 +103,8 @@ const styles = EStyleSheet.create({
     marginTop: '12rem'
   },
   textBlocks: {
-    marginBottom: '40rem',
+    flex: 1,
+    justifyContent: 'center',
     width: '100%',
     alignItems: 'center'
   },
@@ -135,8 +138,7 @@ const styles = EStyleSheet.create({
     backgroundColor: '#eaf5f6',
     height: '50%',
     justifyContent: 'flex-end',
-    alignItems: 'center',
-    overflow: 'hidden'
+    alignItems: 'center'
   },
   container: {
     flex: 1,
