@@ -2,98 +2,103 @@ import React from 'react'
 import { Text, View, Dimensions } from 'react-native'
 import EStyleSheet from 'react-native-extended-stylesheet'
 import * as d3 from 'd3'
-import Svg, { Line } from 'react-native-svg'
-import { Surface, Group, Shape } from '@react-native-community/art'
+import Svg, { Line, Circle, Path,G ,Rect} from 'react-native-svg'
+// import { Surface, Group, Shape, Path } from '@react-native-community/art'
 
 const deviceHeight = Dimensions.get('window').height
 const deviceWidth = Dimensions.get('window').width
 
-// const data = [
-//   {date: new Date(2019, 1,1 ), value: 83.24},
-//   {date: new Date(2019, 2,1 ), value: 88.24},
-//   {date: new Date(2019, 3,1 ), value: 87.24},
-//   {date: new Date(2019, 4,1 ), value: 81.24},
-//   {date: new Date(2019, 5,1 ), value: 86.24},
-//   {date: new Date(2019, 6,1 ), value: 82.24},
-//   {date: new Date(2019, 7,1 ), value: 87.24},
-// ];
+ var data = d3.range(11).map(function(i){
+  return {x: i, y: Math.sin(i)*3 + 5};
+});
+    var width = 360,
+      height = 200,
+      margin = 30,
+    x = d3.scaleLinear()
+    .domain([0, 10])
+    .range([margin, width - margin]),
+    y = d3.scaleLinear()
+    .domain([0, 10])
+    .range([height - margin, margin]);
 
-//  const y = d3.scaleLinear().domain([0, 100]).range([0, deviceHeight]);
+    var line = d3.line()
+    .x(function(d){return x(d.x);})
+    .y(function(d){return y(d.y);})
+    .curve(d3.curveMonotoneX); // <-A
 
-//  const x = d3.scaleTime().domain([new Date(2019, 1,1 ), new Date(2019, 7, 1)]).range([0, deviceWidth]);
+        var area = d3.area()
+            .x(function(d) { return x(d.x); })
+            .y0(y(0))
+            .y1(function(d) { return y(d.y); })
+            .curve(d3.curveMonotoneX);
 
-// // Create our line generator.
-// const line = d3.line()
-//   // For every x value create the x accessor,
-//   // which uses our x scale function.
-//   .x(function(d) { return x(d.date); })
-//   // Make our y accessor.
-//   .y(function(d) { return y(d.value); });
-// Our array of data we're graphing.
-const data = [
-  { date: new Date(2000, 1, 1), value: 83.24 },
-  { date: new Date(2000, 1, 2), value: 85.35 },
-  { date: new Date(2000, 1, 3), value: 98.84 },
-  { date: new Date(2000, 1, 4), value: 79.92 },
-  { date: new Date(2000, 1, 5), value: 83.8 },
-  { date: new Date(2000, 1, 6), value: 88.47 },
-  { date: new Date(2000, 1, 7), value: 94.47 }
-]
 
-// Create our x-scale.
-const x = d3
-  .scaleTime()
-  // Our domain is now a week of time.
-  .domain([new Date(2000, 0, 1), new Date(2000, 0, 8)])
-  // That we're going to show on our screen which is also 640 pixels wide.
-  .range([0, 360])
+            
+    //------New Settings----------
+      // X scale point
+      const xDomain = data.map(item => item.label)
+      const xRange = [0, graphWidth]
+      const x = d3.scalePoint()
+        .domain(xDomain)
+        .range(xRange)
+        .padding(1)
+  
+      // Y scale linear
+      const yDomain = [0, d3.max(data, d => d.value)]
+      const yRange = [graphHeight,0]
+      const y = d3.scaleLinear()
+        .domain(yDomain)
+        .range(yRange)
 
-const y = d3
-  .scaleLinear()
-  // Set our domain, which is our input data, which is our test scores,
-  // which can be between 0 and 100.
-  .domain([0, 100])
-  // Set our range, which is our output data, which is the height of our
-  // screen, which is 640 pixels.
-  .range([0, 640])
-
-// Create our line generator.
-const line = d3
-  .line()
-  // For every x value create the x accessor,
-  // which uses our x scale function.
-  .x(function (d) {
-    return x(d.date)
-  })
-  // Make our y accessor.
-  .y(function (d) {
-    return y(d.value)
-  })
-console.log('====================================');
-console.log(line(data));
-console.log('====================================');
 export default class OtherScreen extends React.Component {
-
   render () {
-
     return (
       <View style={styles.container}>
         <Text>Other Screen</Text>
-        <Surface width={500} height={500}>
-          <Group x={100} y={0}>
-            <Shape d={line(data)} stroke='#000' strokeWidth={1} />
-          </Group>
-        </Surface>
+        <Svg width={360} height={500}>
+          <Path
+            d={area(data)}
+            // d='M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80'
+            stroke='blue'
+            fill='rgba(180,180,255,0.5)'
+            strokeWidth={2}
+          />
+            {/* <BarChart /> */}
+          {this.renderDots()}
+        </Svg>
       </View>
     )
   }
+  renderDots () {
+    return (
+      <G>
+        {data.map((item, index) => {
+          return (
+            <G>
+            <Circle
+              cx={x(item.x)}
+              cy={y(item.y)}
+              r={4.5}
+              stroke='white'
+              fill='red'
+              strokeWidth={2}
+            />
+            <Line stroke="white" strokeWidth={4} x1={x(item.x)} y1={200} x2={x(item.x)} y2={y(item.y)+3}   />
+            </G>
+          )
+        })}
+      </G>
+    )
+  }  
 }
+
+
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   content: {
     flex: 1,
@@ -101,3 +106,95 @@ const styles = EStyleSheet.create({
     justifyContent: 'center'
   }
 })
+
+
+
+const GRAPH_MARGIN = 20
+const GRAPH_BAR_WIDTH = 5
+
+const colors = {
+  axis: '#E4E4E4',
+  bars: '#15AD13'
+}
+
+const data2 = [
+  { label: 'Jan', value: 500 },
+  { label: 'Feb', value: 312 },
+  { label: 'Mar', value: 424 },
+  { label: 'Apr', value: 745 },
+  { label: 'May', value: 89 },
+  { label: 'Jun', value: 434 },
+  { label: 'Jul', value: 650 },
+  { label: 'Aug', value: 980 },
+  { label: 'Sep', value: 123 },
+  { label: 'Oct', value: 186 },
+  { label: 'Nov', value: 689 },
+  { label: 'Dec', value: 643 }
+]
+
+const BarChart =() => {
+
+    // Dimensions
+    const SVGHeight = 200
+    const SVGWidth = deviceWidth
+    const graphHeight = SVGHeight - 2 * GRAPH_MARGIN
+    const graphWidth = SVGWidth - 2 * GRAPH_MARGIN
+    const data = data2
+
+    // X scale point
+    const xDomain = data.map(item => item.label)
+    const xRange = [0, graphWidth]
+    const x = d3.scalePoint()
+      .domain(xDomain)
+      .range(xRange)
+      .padding(1)
+
+    // Y scale linear
+    const yDomain = [0, d3.max(data, d => d.value)]
+    const yRange = [graphHeight,0]
+    const y = d3.scaleLinear()
+      .domain(yDomain)
+      .range(yRange)
+
+      var area = d3.area()
+      .x(function(d) { return x(d.label); })
+      .y0(y(0))
+      .y1(function(d) { return y(d.value); })
+      .curve(d3.curveMonotoneX);
+    return (
+      <Svg width={SVGWidth} height={SVGHeight}>
+        <G y={graphHeight}>
+         <Path
+            y={0}
+            d={area(data)}
+            // d='M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80'
+            stroke='blue'
+            fill='rgba(180,180,255,0.5)'
+            strokeWidth={2}
+          />
+          {/* bars */}
+          {data.map(item => (
+            <Rect
+              key={item.label}
+              x={x(item.label) - (GRAPH_BAR_WIDTH / 2)}
+              y={y(item.value) * -1}
+              rx={2.5}
+              width={GRAPH_BAR_WIDTH}
+              height={y(item.value)}
+              fill={colors.bars}
+            />
+          ))}
+
+          {/* bottom axis */}
+          <Line
+            x1="0"
+            y1="2"
+            x2={graphWidth}
+            y2="2"
+            stroke={colors.axis}
+            strokeWidth="0.5"
+          />
+        </G>
+      </Svg>
+    )
+  }
