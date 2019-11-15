@@ -91,16 +91,3 @@ const Chart = props => {
 }
 
 export default Chart
-
-const styles = EStyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})

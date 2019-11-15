@@ -69,9 +69,6 @@ export default class Home extends React.Component {
 }
 
 const styles = EStyleSheet.create({
-  // chart: {
-  //   marginTop: '20rem'
-  // },
   nairaSign: {
     color: '#1f3f66',
     fontSize: '18rem',
